@@ -1,0 +1,214 @@
+<%# Hero Banner (Full Bleed Image) %>
+<div class="relative bg-gradient-to-br from-indigo-900 via-indigo-800 to-purple-900 dark:from-[#1E1B4B] dark:via-[#312E81] dark:to-[#4C1D95] flex flex-col md:flex-row items-center justify-between overflow-hidden shrink-0 min-h-[380px]">
+  <%# Ambient glows %>
+  <div class="absolute right-0 top-0 w-[400px] h-[400px] rounded-full bg-[#A855F7]/30 blur-[100px] pointer-events-none"></div>
+  <div class="absolute left-10 bottom-0 w-[300px] h-[300px] rounded-full bg-[#4F46E5]/40 blur-[100px] pointer-events-none"></div>
+
+  <%# Text Column %>
+  <div class="relative z-20 w-full md:w-[55%] text-center md:text-left px-6 py-12 md:px-12 md:py-16 xl:py-20">
+    <h1 class="text-[36px] sm:text-[44px] lg:text-[52px] font-extrabold text-white leading-[1.1] tracking-[-0.02em] mb-6">
+      Aprende, analiza y gana <br class="hidden sm:block">
+      en el <span class="text-[#818CF8]">mundo crypto</span>
+    </h1>
+    <p class="text-[15px] sm:text-[16px] text-indigo-100 opacity-90 max-w-lg mx-auto md:mx-0 mb-8 leading-relaxed">
+      Domina el mercado con datos on-chain en tiempo real, análisis técnico profesional y la academia cripto más completa del sector.
+    </p>
+    <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
+      <a href="<%= categories_path %>" class="w-full sm:w-auto px-6 py-3.5 bg-[#4F46E5] hover:bg-[#4338CA] text-white text-[15px] font-bold rounded-xl shadow-[0_4px_14px_rgba(79,70,229,0.4)] transition-all hover:-translate-y-0.5 text-center">
+        Explorar mercado
+      </a>
+      <a href="<%= news_index_path %>" class="w-full sm:w-auto px-6 py-3.5 bg-white/5 border border-white/20 hover:bg-white/10 text-white text-[15px] font-bold rounded-xl backdrop-blur-sm transition-all text-center">
+        Leer guías
+      </a>
+    </div>
+  </div>
+
+  <%# Right Image: Full Height Bleed to Corner %>
+  <div class="relative z-10 w-full h-[250px] md:absolute md:right-0 md:bottom-0 md:h-[115%] md:w-[50%] flex justify-end items-end">
+    <img src="/portada-img.png" alt="Plataforma Crypto" class="w-full h-full object-contain object-bottom drop-shadow-[0_25px_35px_rgba(0,0,0,0.6)] transform hover:scale-[1.02] transition-transform duration-500 origin-bottom-right">
+  </div>
+</div>
+
+<%# Ticker Infinite Marquee %>
+<% 
+# Fetch coins with images from CoinGecko API
+begin
+  markets_data = ExternalApis::CoinGeckoClient.fetch_coins_markets('bitcoin,ethereum,solana,binancecoin,ripple,cardano,avalanche-2,polkadot,matic-network,chainlink')
+rescue
+  markets_data = []
+end
+
+# Build assets array from API data
+assets = markets_data.map do |coin|
+  {
+    sym: coin['symbol']&.upcase,
+    name: coin['name'],
+    image: coin['image'],
+    p: number_to_currency(coin['current_price'] || 0, unit: '$', precision: 0),
+    c: "#{(coin['price_change_percentage_24h'] || 0) >= 0 ? '+' : ''}#{(coin['price_change_percentage_24h'] || 0).round(1)}%",
+    up: (coin['price_change_percentage_24h'] || 0) >= 0
+  }
+end
+
+# Fallback if API fails
+if assets.empty?
+  assets = [
+    {sym: 'BTC', name: 'Bitcoin', p: '$64,320', c: '+2.4%', up: true},
+    {sym: 'ETH', name: 'Ethereum', p: '$3,450', c: '+1.8%', up: true},
+    {sym: 'SOL', name: 'Solana', p: '$145', c: '-0.5%', up: false},
+    {sym: 'BNB', name: 'BNB', p: '$590', c: '+4.2%', up: true},
+    {sym: 'XRP', name: 'XRP', p: '$0.62', c: '+0.1%', up: true},
+    {sym: 'ADA', name: 'Cardano', p: '$0.45', c: '-1.2%', up: false},
+    {sym: 'AVAX', name: 'Avalanche', p: '$35', c: '+5.4%', up: true},
+    {sym: 'DOT', name: 'Polkadot', p: '$7.20', c: '+1.5%', up: true},
+    {sym: 'MATIC', name: 'Polygon', p: '$0.87', c: '+3.1%', up: true},
+    {sym: 'LINK', name: 'Chainlink', p: '$14.20', c: '+2.8%', up: true}
+  ]
+end
+%>
+<div class="w-full bg-white dark:bg-[#13152B] border-y border-slate-200 dark:border-[#2A2D4A] shrink-0 overflow-hidden relative flex items-center h-[76px]">
+  <div class="absolute left-0 top-0 bottom-0 w-12 z-10 bg-gradient-to-r from-white dark:from-[#13152B] to-transparent pointer-events-none"></div>
+  <div class="absolute right-0 top-0 bottom-0 w-12 z-10 bg-gradient-to-l from-white dark:from-[#13152B] to-transparent pointer-events-none"></div>
+  <div class="flex animate-marquee hover:[animation-play-state:paused]">
+    <% (assets * 3).each do |coin| %>
+      <%= link_to coin_path(coin[:sym].downcase), class: "flex items-center gap-3 px-5 h-[76px] w-[220px] shrink-0 border-r border-slate-100 dark:border-[#2A2D4A] hover:bg-slate-50 dark:hover:bg-[#1A1D35] transition-colors" do %>
+        <% if coin[:image].present? %>
+          <img src="<%= coin[:image] %>" alt="<%= coin[:name] %>" class="w-9 h-9 rounded-full object-cover">
+        <% else %>
+          <div class="w-9 h-9 rounded-full bg-slate-100 dark:bg-[#1E2140] flex items-center justify-center font-bold text-slate-700 dark:text-white text-[11px] border border-slate-200 dark:border-[#2A2D4A] shrink-0">
+            <%= coin[:sym] %>
+          </div>
+        <% end %>
+        <div>
+          <p class="text-[11px] font-bold text-slate-400 dark:text-[#8B8FA8] uppercase mb-0.5"><%= coin[:name] %></p>
+          <p class="text-[14px] font-extrabold text-slate-900 dark:text-white font-mono leading-none mb-0.5">$<%= coin[:p] %></p>
+          <p class="text-[11px] font-bold <%= coin[:up] ? 'text-emerald-500' : 'text-rose-500' %>"><%= coin[:c] %></p>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+<%# Chart & Featured News %>
+<div class="flex flex-col lg:flex-row bg-slate-100 dark:bg-[#2A2D4A] gap-px border-b border-slate-200 dark:border-[#2A2D4A] shrink-0">
+
+  <%# Chart Panel %>
+  <div class="flex-1 bg-white dark:bg-[#13152B] p-6 lg:p-8">
+    <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-6">
+      <div>
+        <div class="flex items-center gap-3 mb-1">
+          <div class="w-8 h-8 rounded-full bg-[#F59E0B] flex items-center justify-center text-white font-bold text-sm">B</div>
+          <h2 class="text-[20px] font-extrabold text-slate-900 dark:text-white">Bitcoin <span class="text-[14px] text-slate-500 dark:text-[#8B8FA8] font-medium ml-1">BTC/USD</span></h2>
+        </div>
+        <div class="flex items-end gap-3 mt-3">
+          <span class="text-[32px] sm:text-[40px] font-extrabold text-slate-900 dark:text-white font-mono leading-none">$64,320.50</span>
+          <span class="text-[14px] font-bold text-emerald-500 mb-1">+$1,240.20 (1.9%)</span>
+        </div>
+      </div>
+      <div class="flex items-center bg-slate-100 dark:bg-[#1E2140] rounded-lg p-1 self-start">
+        <% ['1H','1D','1W','1M','1Y'].each_with_index do |label, i| %>
+          <button class="px-3 py-1.5 rounded-md text-[13px] font-bold <%= i == 2 ? 'bg-white dark:bg-[#2A2D4A] text-slate-900 dark:text-white shadow-sm' : 'text-slate-500 dark:text-[#8B8FA8] hover:text-slate-900 dark:hover:text-white' %> transition-colors"><%= label %></button>
+        <% end %>
+      </div>
+    </div>
+    <div class="h-[220px] sm:h-[280px] w-full border border-slate-200 dark:border-[#1E2140] rounded-xl bg-slate-50 dark:bg-[#0D0E1A] relative overflow-hidden">
+      <div class="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#1E2140_1px,transparent_1px),linear-gradient(to_bottom,#1E2140_1px,transparent_1px)] bg-[size:40px_40px] opacity-40"></div>
+      <svg viewBox="0 0 800 300" class="absolute inset-0 w-full h-full">
+        <defs><linearGradient id="chartGrad" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#22C55E" stop-opacity="0.15"/><stop offset="100%" stop-color="#22C55E" stop-opacity="0"/></linearGradient></defs>
+        <path d="M0 250 C100 240,200 180,300 200 C400 220,500 100,600 120 C700 140,750 40,800 60 L800 300 L0 300 Z" fill="url(#chartGrad)"/>
+        <path d="M0 250 C100 240,200 180,300 200 C400 220,500 100,600 120 C700 140,750 40,800 60" fill="none" stroke="#22C55E" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="mt-4 flex justify-end">
+      <a href="#" class="text-[13px] font-bold text-[#4F46E5] hover:text-[#6C7AE0] flex items-center gap-1 transition-colors">
+        Ver análisis técnico <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <%# Featured News %>
+  <div class="w-full lg:w-[340px] bg-white dark:bg-[#13152B] p-6 lg:p-8 flex flex-col shrink-0">
+    <div class="flex items-center justify-between mb-5">
+      <h3 class="text-[17px] font-bold text-slate-900 dark:text-white">Noticias Destacadas</h3>
+      <a href="<%= news_index_path %>" class="text-[13px] font-bold text-[#4F46E5] hover:underline">Ver todas</a>
+    </div>
+    <% 
+      slugs = ['bitcoin-rompe-resistencia-65000-maximos-historicos', 'blackrock-spot-bitcoin-etf-record-volumes', 'federal-reserve-interest-rate-crypto-volatility', 'bitcoin-rompe-resistencia-65000-maximos-historicos']
+    [
+        {cat:'Ethereum', color:'#60A5FA', title:'Vitalik propone nuevos cambios para reducir el gas', time:'Hace 2h', img:'https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=120&h=80&fit=crop&auto=format'},
+        {cat:'Regulación',color:'#F59E0B',title:'La SEC aplaza la decisión sobre los ETFs de Solana',time:'Hace 4h', img:'https://images.unsplash.com/photo-1622630998477-20b41cd0e0d2?w=120&h=80&fit=crop&auto=format'},
+        {cat:'Análisis', color:'#A855F7', title:'El ratio MVRV indica acumulación masiva de ballenas',time:'Hace 5h', img:'https://images.unsplash.com/photo-1518546305927-5a555bb7020d?w=120&h=80&fit=crop&auto=format'},
+        {cat:'DeFi',     color:'#34D399', title:'El TVL de restaking supera los $10 Billones',      time:'Hace 8h', img:'https://images.unsplash.com/photo-1639762681485-074b7f4ec651?w=120&h=80&fit=crop&auto=format'}
+       ].each_with_index do |news, i| %>
+      <a href="<%= news_path(slugs[i]) %>" class="flex items-start gap-3 py-3.5 <%= i < 3 ? 'border-b border-slate-100 dark:border-[#1E2140]' : '' %> group">
+        <img src="<%= news[:img] %>" class="w-[68px] h-[50px] rounded-lg object-cover shrink-0 border border-slate-100 dark:border-transparent">
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-1.5 mb-1">
+            <span class="text-[10px] font-extrabold uppercase tracking-wider" style="color:<%= news[:color] %>"><%= news[:cat] %></span>
+            <span class="text-[10px] text-slate-400 dark:text-[#5A5F7A]">• <%= news[:time] %></span>
+          </div>
+          <h4 class="text-[13px] font-bold text-slate-800 dark:text-white leading-snug group-hover:text-[#4F46E5] transition-colors line-clamp-2"><%= news[:title] %></h4>
+        </div>
+      </a>
+    <% end %>
+  </div>
+</div>
+
+<%# Explora Categorías %>
+<div class="p-6 sm:p-8 bg-white dark:bg-[#0D0E1A]">
+  <div class="flex items-center justify-between mb-6">
+    <h3 class="text-[19px] font-bold text-slate-900 dark:text-white">Explora la Academia</h3>
+    <a href="<%= categories_path %>" class="hidden sm:flex items-center gap-1 text-[13px] font-bold text-[#4F46E5] hover:underline">
+      Ver directorio completo <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+  <div class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-4">
+    <% [
+        {n:'Trading',    i:'📈', c:'124', bg:'#EFF6FF', tc:'#3B82F6'},
+        {n:'DeFi',       i:'🦄', c:'89',  bg:'#ECFDF5', tc:'#10B981'},
+        {n:'NFTs',       i:'🎨', c:'45',  bg:'#FDF2F8', tc:'#EC4899'},
+        {n:'Blockchain', i:'⛓️', c:'156', bg:'#EEF2FF', tc:'#6366F1'},
+        {n:'Análisis',   i:'📊', c:'210', bg:'#FFFBEB', tc:'#F59E0B'},
+        {n:'Guías',      i:'📚', c:'67',  bg:'#FAF5FF', tc:'#A855F7'}
+       ].each do |cat| %>
+      <a href="<%= categories_path %>" class="p-5 bg-slate-50 dark:bg-[#1A1D35] border border-slate-200 dark:border-[#2A2D4A] rounded-2xl hover:border-[#4F46E5] hover:-translate-y-1 transition-all shadow-sm hover:shadow-lg flex flex-col items-center text-center group cursor-pointer">
+        <div class="w-12 h-12 rounded-full flex items-center justify-center text-2xl mb-3" style="background-color:<%= cat[:bg] %>20">
+          <%= cat[:i] %>
+        </div>
+        <h4 class="text-[14px] font-bold text-slate-900 dark:text-white mb-0.5"><%= cat[:n] %></h4>
+        <p class="text-[11px] font-medium text-slate-500 dark:text-[#8B8FA8]"><%= cat[:c] %> artículos</p>
+      </a>
+    <% end %>
+  </div>
+</div>
+
+<%# Value Props %>
+<div class="grid grid-cols-2 xl:grid-cols-4 gap-px bg-slate-200 dark:bg-[#2A2D4A] border-t border-slate-200 dark:border-[#2A2D4A]">
+  <% [
+      {label:'Aprende',  sub:'Cursos desde cero',      icon:'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253', bg:'bg-indigo-50 dark:bg-[#1E2140]', tc:'text-[#4F46E5]'},
+      {label:'Analiza',  sub:'Datos on-chain en vivo', icon:'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', bg:'bg-emerald-50 dark:bg-[#1E2140]', tc:'text-emerald-500'},
+      {label:'Conecta',  sub:'Comunidad experta',      icon:'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z', bg:'bg-orange-50 dark:bg-[#1E2140]', tc:'text-[#F59E0B]'},
+      {label:'Gana',     sub:'Rentabiliza portafolio', icon:'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6', bg:'bg-purple-50 dark:bg-[#1E2140]', tc:'text-[#A855F7]'}
+     ].each do |prop| %>
+    <div class="bg-white dark:bg-[#0D0E1A] p-6 lg:p-8 flex items-center gap-5">
+      <div class="w-12 h-12 rounded-xl <%= prop[:bg] %> flex items-center justify-center shrink-0 <%= prop[:tc] %>">
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="<%= prop[:icon] %>"/></svg>
+      </div>
+      <div>
+        <p class="text-[16px] font-extrabold text-slate-900 dark:text-white"><%= prop[:label] %></p>
+        <p class="text-[12px] font-medium text-slate-500 dark:text-[#8B8FA8]"><%= prop[:sub] %></p>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<style>
+  @keyframes marquee {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(calc(-220px * 10)); }
+  }
+  .animate-marquee {
+    animation: marquee 35s linear infinite;
+    will-change: transform;
+  }
+</style>

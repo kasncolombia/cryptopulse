@@ -1,0 +1,385 @@
+<%# Coin Detail - CryptoSphere Hyper-Fintech Style %>
+<% content_for :title, "#{@coin_data[:name]} (#{@coin_data[:symbol]}) | CryptoSphere" %>
+
+<aside class="fixed left-0 top-0 h-full w-[260px] border-r border-slate-200 dark:border-white/10 bg-white dark:bg-[#0c0e17] flex flex-col pt-6 z-50 hidden lg:flex">
+  <div class="px-6 mb-10">
+    <a href="<%= root_path %>" class="block">
+      <h1 class="text-lg font-bold text-slate-900 dark:text-white uppercase tracking-widest">CryptoSphere</h1>
+      <p class="text-[10px] text-indigo-600 dark:text-indigo-500 font-bold tracking-tighter">Pro Trader Terminal</p>
+    </a>
+  </div>
+  <nav class="flex-1 space-y-1">
+    <%= link_to root_path, class: "flex items-center gap-4 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white px-6 py-3 w-full cursor-pointer hover:bg-slate-100 dark:hover:bg-white/5 transition-all duration-300 group" do %>
+      <span class="material-symbols-outlined">dashboard</span>
+      <span class="font-inter text-sm font-medium">Dashboard</span>
+    <% end %>
+    <a class="flex items-center gap-4 bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-l-2 border-indigo-500 dark:border-indigo-500 px-6 py-3 w-full cursor-pointer" href="#">
+      <span class="material-symbols-outlined">trending_up</span>
+      <span class="font-inter text-sm font-medium">Markets</span>
+    </a>
+    <%= link_to profile_path, class: "flex items-center gap-4 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white px-6 py-3 w-full cursor-pointer hover:bg-slate-100 dark:hover:bg-white/5 transition-all duration-300 group" do %>
+      <span class="material-symbols-outlined">account_balance_wallet</span>
+      <span class="font-inter text-sm font-medium">Portfolio</span>
+    <% end %>
+  </nav>
+  <div class="mt-auto border-t border-slate-200 dark:border-white/10 pt-4 pb-8">
+    <button class="w-full mx-4 py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-bold text-xs uppercase tracking-wider active:scale-95 transition-transform">
+      Trade Now
+    </button>
+  </div>
+</aside>
+
+<header class="fixed top-0 left-[260px] right-0 h-16 bg-white/80 dark:bg-[#0c0e17]/80 backdrop-blur-md border-b border-slate-200 dark:border-white/10 flex justify-between items-center px-6 z-40">
+  <div class="flex items-center gap-4">
+    <a href="<%= root_path %>" class="flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+      <span class="material-symbols-outlined">arrow_back</span>
+      <span class="text-sm font-medium">Markets</span>
+    </a>
+  </div>
+  <div class="flex items-center gap-4">
+    <button class="p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 transition-colors">
+      <span class="material-symbols-outlined">notifications</span>
+    </button>
+    <button class="p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 transition-colors">
+      <span class="material-symbols-outlined">account_balance_wallet</span>
+    </button>
+    <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-xs font-bold text-white">AR</div>
+  </div>
+</header>
+
+<main class="lg:pl-[260px] pt-16 min-h-screen bg-slate-50 dark:bg-[#11131c]">
+  <div class="max-w-[1600px] mx-auto p-6 flex flex-col lg:flex-row gap-6">
+    <%# Center Column %>
+    <div class="flex-1 space-y-6">
+      <%# Bitcoin Header Section %>
+      <% 
+        # Get coin image or fallback colors/icons by symbol
+        coin_image = @coin_data[:image_small] || @coin_data[:image]
+        sym = @coin_data[:symbol] || 'BTC'
+        fallback_colors = { 'BTC' => 'bg-orange-500', 'ETH' => 'bg-blue-500', 'SOL' => 'bg-purple-500', 'BNB' => 'bg-yellow-500' }
+        fallback_icons = { 'BTC' => 'currency_bitcoin', 'ETH' => 'currency_ethereum', 'SOL' => 'local_activity', 'XRP' => 'bolt', 'ADA' => 'diamond', 'DOT' => 'trip_origin', 'LINK' => 'link' }
+        fallback_color = fallback_colors[sym] || 'bg-indigo-500'
+        fallback_icon = fallback_icons[sym] || 'monetization_on'
+      %>
+      <section class="glass-card p-6 rounded-xl flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-4">
+          <% if coin_image.present? %>
+            <img src="<%= coin_image %>" alt="<%= @coin_data[:name] %>" class="w-14 h-14 rounded-full object-cover">
+          <% else %>
+            <div class="w-14 h-14 rounded-full <%= fallback_color %> flex items-center justify-center text-white shadow-lg <%= fallback_color %>/20">
+              <span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;"><%= fallback_icon %></span>
+            </div>
+          <% end %>
+          <div>
+            <div class="flex items-center gap-2">
+              <h1 class="text-2xl font-bold text-slate-900 dark:text-white"><%= @coin_data[:name] %></h1>
+              <span class="bg-slate-100 dark:bg-[#32343e] text-slate-600 dark:text-[#c7c4d7] px-2 py-0.5 rounded text-[11px] font-bold uppercase"><%= @coin_data[:symbol] %></span>
+            </div>
+            <div class="flex items-baseline gap-3 mt-1">
+              <span class="text-3xl font-bold text-slate-900 dark:text-white font-mono">$<%= number_to_currency(@coin_data[:current_price] || 0, unit: '', precision: 2) %></span>
+              <% pc = @coin_data[:price_change_24h] || 0 %>
+              <span class="text-<%= pc >= 0 ? 'emerald' : 'rose' %>-400 font-bold flex items-center gap-1">
+                <span class="material-symbols-outlined text-lg"><%= pc >= 0 ? 'arrow_drop_up' : 'arrow_drop_down' %></span>
+                <%= pc >= 0 ? '+' : '' %><%= pc.round(2) %>%
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <button class="bg-slate-100 dark:bg-[#32343e] hover:bg-slate-200 dark:hover:bg-[#373943] text-slate-700 dark:text-white font-bold py-3 px-5 rounded-lg transition-all flex items-center gap-2">
+            <span class="material-symbols-outlined">star</span>
+            Watchlist
+          </button>
+          <button class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:opacity-90 text-white font-bold py-3 px-8 rounded-lg shadow-lg shadow-indigo-500/20 transition-all">
+            Trade
+          </button>
+        </div>
+      </section>
+
+      <%# Chart Section %>
+      <section class="glass-card rounded-xl overflow-hidden">
+        <div class="p-4 border-b border-white/10 flex justify-between items-center">
+          <div class="flex gap-2">
+            <button class="px-3 py-1 rounded bg-indigo-500/20 text-indigo-400 font-bold text-xs uppercase tracking-wider">Candlestick</button>
+            <button class="px-3 py-1 rounded text-slate-500 hover:text-white font-bold text-xs uppercase tracking-wider">Line</button>
+          </div>
+          <div class="flex gap-1">
+            <% [['1D', false], ['7D', true], ['1M', false], ['3M', false], ['1A', false], ['ALL', false]].each do |label, active| %>
+              <button class="px-3 h-8 flex items-center justify-center rounded text-[11px] font-bold <%= active ? 'bg-indigo-500 text-white' : 'text-slate-400 hover:bg-white/5' %> transition-colors">
+                <%= label %>
+              </button>
+            <% end %>
+          </div>
+        </div>
+        <div class="h-[400px] relative w-full bg-slate-100 dark:bg-[#0c0e17]/50 flex items-center justify-center">
+          <div class="absolute inset-0 flex flex-col justify-between p-6 pointer-events-none">
+            <div class="flex justify-between items-start">
+              <div class="bg-white dark:bg-[#0c0e17]/80 p-3 rounded border border-slate-200 dark:border-white/5">
+                <p class="text-[11px] text-slate-500 dark:text-slate-500 uppercase font-bold">Current</p>
+                <p class="text-xl text-slate-900 dark:text-white font-mono">$<%= number_to_currency(@coin_data[:current_price] || 0, unit: '', precision: 2) %></p>
+              </div>
+              <% pc = @coin_data[:price_change_24h] || 0 %>
+              <span class="bg-<%= pc >= 0 ? 'emerald' : 'rose' %>-500/20 text-<%= pc >= 0 ? 'emerald' : 'rose' %>-400 px-3 py-1 rounded text-xs font-bold"><%= pc >= 0 ? '+' : '' %><%= pc.round(2) %>% Today</span>
+            </div>
+          </div>
+          <%# Simulated chart SVG %>
+          <svg class="absolute inset-0 w-full h-full opacity-30" viewBox="0 0 800 400" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="chartGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style="stop-color:#22C55E;stop-opacity:0.3" />
+                <stop offset="100%" style="stop-color:#22C55E;stop-opacity:0" />
+              </linearGradient>
+            </defs>
+            <path d="M0,350 Q100,320 200,280 T400,220 T600,180 T800,120" fill="none" stroke="#22C55E" stroke-width="2"/>
+            <path d="M0,350 Q100,320 200,280 T400,220 T600,180 T800,120 L800,400 L0,400 Z" fill="url(#chartGrad)"/>
+          </svg>
+        </div>
+      </section>
+
+      <%# Market Stats Grid %>
+      <% 
+        def format_market_val(val)
+          return 'N/A' if val.blank? || val == 0
+          if val >= 1_000_000_000_000
+            "$#{(val / 1_000_000_000_000).round(2)}T"
+          elsif val >= 1_000_000_000
+            "$#{(val / 1_000_000_000).round(2)}B"
+          elsif val >= 1_000_000
+            "$#{(val / 1_000_000).round(2)}M"
+          elsif val >= 1_000
+            "$#{(val / 1_000).round(2)}K"
+          else
+            "$#{val.round(2)}"
+          end
+        end
+        
+        def calc_pct_change(current, target)
+          return nil if current.blank? || target.blank? || target == 0
+          "#{( ((current - target) / target) * 100 ).round(1) }%"
+        end
+        
+        stats = [
+          {label:'Market Cap', val: format_market_val(@coin_data[:market_cap]), sub: nil},
+          {label:'24h Volume', val: format_market_val(@coin_data[:total_volume]), sub: nil},
+          {label:'Circulating Supply', val: format_market_val(@coin_data[:circulating_supply]), sub: nil, supply: true},
+          {label:'All-Time High', val: format_market_val(@coin_data[:ath]), sub: calc_pct_change(@coin_data[:current_price], @coin_data[:ath]), neg: true},
+          {label:'All-Time Low', val: format_market_val(@coin_data[:atl]), sub: calc_pct_change(@coin_data[:current_price], @coin_data[:atl]), pos: true}
+        ] 
+      %>
+      <section class="grid grid-cols-2 md:grid-cols-5 gap-4">
+        <% stats.each do |stat| %>
+          <div class="glass-card p-4 rounded-xl">
+            <p class="text-[11px] text-slate-500 uppercase font-bold mb-2"><%= stat[:label] %></p>
+            <p class="text-lg text-white font-mono <%= stat[:neg] ? 'text-rose-400' : '' %>"><%= stat[:val] %></p>
+            <% if stat[:sub] %>
+              <p class="text-xs <%= stat[:neg] ? 'text-rose-400' : (stat[:pos] ? 'text-emerald-400' : 'text-slate-400') %> mt-1"><%= stat[:sub] %></p>
+            <% end %>
+            <% if stat[:supply] && @coin_data[:circulating_supply] && @coin_data[:fully_diluted_valuation] %>
+              <% supply_pct = (@coin_data[:circulating_supply].to_f / @coin_data[:fully_diluted_valuation].to_f * 100).round(1) rescue 0 %>
+              <div class="w-full bg-slate-200 dark:bg-[#282933] h-1 rounded-full mt-2 overflow-hidden">
+                <div class="bg-indigo-500 h-full" style="width: <%= [supply_pct, 100].min %>%"></div>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </section>
+
+      <%# Two Column Section %>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <%# Sentiment Analysis %>
+        <div class="glass-card p-6 rounded-xl flex flex-col gap-6">
+          <h3 class="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <span class="material-symbols-outlined text-indigo-600 dark:text-indigo-400">psychology</span>
+            Sentiment Analysis
+          </h3>
+          <div class="flex items-center gap-6 py-4">
+            <div class="relative w-24 h-24 flex items-center justify-center">
+              <svg class="w-full h-full transform -rotate-90">
+                <circle class="text-slate-200 dark:text-[#282933]" cx="48" cy="48" fill="transparent" r="44" stroke="currentColor" stroke-width="8"></circle>
+                <circle class="text-indigo-500" cx="48" cy="48" fill="transparent" r="44" stroke="currentColor" stroke-dasharray="276.46" stroke-dashoffset="80" stroke-width="8"></circle>
+              </svg>
+              <div class="absolute flex flex-col items-center">
+                <span class="text-2xl text-slate-900 dark:text-white font-bold font-mono">72</span>
+                <span class="text-[11px] text-indigo-600 dark:text-indigo-400 uppercase font-bold">Greed</span>
+              </div>
+            </div>
+            <div class="flex-1">
+              <p class="text-slate-900 dark:text-white font-bold mb-1">Fear & Greed Index</p>
+              <p class="text-sm text-slate-600 dark:text-slate-400">Market sentiment is currently leaning towards Greed, suggesting high trader confidence.</p>
+            </div>
+          </div>
+          <div class="pt-4 border-t border-slate-200 dark:border-white/5">
+            <p class="text-[11px] text-slate-500 uppercase font-bold mb-4">Community Poll</p>
+            <div class="flex gap-3">
+              <button class="flex-1 bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/20 text-emerald-400 p-3 rounded-lg font-bold flex items-center justify-center gap-2 transition-colors">
+                <span class="material-symbols-outlined">trending_up</span> Bullish (84%)
+              </button>
+              <button class="flex-1 bg-rose-500/10 border border-rose-500/20 hover:bg-rose-500/20 text-rose-400 p-3 rounded-lg font-bold flex items-center justify-center gap-2 transition-colors">
+                <span class="material-symbols-outlined">trending_down</span> Bearish (16%)
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <%# About Bitcoin %>
+        <div class="glass-card p-6 rounded-xl">
+          <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-4">About <%= @coin_data[:name] || 'Bitcoin' %></h3>
+          <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+            <%= @coin_data[:description] || "Bitcoin (BTC) is a decentralized digital currency, without a central bank or single administrator, that can be sent from user to user on the peer-to-peer bitcoin network without the need for intermediaries." %>
+          </p>
+          <div class="grid grid-cols-1 gap-2">
+            <a class="flex items-center justify-between p-3 rounded bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 transition-colors" href="#">
+              <span class="flex items-center gap-2 text-slate-700 dark:text-white">
+                <span class="material-symbols-outlined text-slate-500">language</span>
+                Website
+              </span>
+              <span class="material-symbols-outlined text-sm text-slate-500">open_in_new</span>
+            </a>
+            <a class="flex items-center justify-between p-3 rounded bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 transition-colors" href="#">
+              <span class="flex items-center gap-2 text-slate-700 dark:text-white">
+                <span class="material-symbols-outlined text-slate-500">description</span>
+                Whitepaper
+              </span>
+              <span class="material-symbols-outlined text-sm text-slate-500">open_in_new</span>
+            </a>
+            <a class="flex items-center justify-between p-3 rounded bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 transition-colors" href="#">
+              <span class="flex items-center gap-2 text-slate-700 dark:text-white">
+                <span class="material-symbols-outlined text-slate-500">explore</span>
+                Explorer
+              </span>
+              <span class="material-symbols-outlined text-sm text-slate-500">open_in_new</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <%# Related News %>
+      <section class="space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xl font-bold text-slate-900 dark:text-white">Market Intelligence</h3>
+          <a class="text-indigo-600 dark:text-indigo-400 text-sm font-bold flex items-center gap-1 hover:underline" href="<%= news_index_path %>">
+            View All <span class="material-symbols-outlined text-sm">chevron_right</span>
+          </a>
+        </div>
+        <div class="grid grid-cols-1 gap-4">
+          <% [{id:1, slug:'blackrock-spot-bitcoin-etf-record-volumes', cat:'Institutional', time:'2 hours ago', title:"BlackRock's Spot Bitcoin ETF Hits Record Volumes Amid Institutional Push", desc:'Market analysts suggest that the recent surge in ETF inflows signifies a paradigm shift in how traditional finance views Bitcoin as an asset class.'},
+              {id:2, slug:'federal-reserve-interest-rate-crypto-volatility', cat:'Macro', time:'5 hours ago', title:'Federal Reserve Interest Rate Forecasts Drive Volatility in Crypto Markets', desc:'As inflation data remains mixed, Bitcoin traders are hedging against potential long-term rate adjustments from the FOMC.'}]
+          .each do |news| %>
+            <a href="<%= news_path(news[:slug]) %>" class="glass-card p-5 rounded-xl flex flex-col md:flex-row gap-4 hover:border-indigo-500/30 transition-all cursor-pointer">
+              <div class="w-full md:w-40 h-28 rounded-lg bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900 dark:to-purple-900 flex items-center justify-center">
+                <span class="material-symbols-outlined text-4xl text-slate-400 dark:text-white/30">article</span>
+              </div>
+              <div class="flex-1 flex flex-col justify-center">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="text-indigo-600 dark:text-indigo-400 text-xs font-bold uppercase tracking-widest"><%= news[:cat] %></span>
+                  <span class="w-1 h-1 bg-slate-400 dark:bg-slate-700 rounded-full"></span>
+                  <span class="text-slate-500 text-xs"><%= news[:time] %></span>
+                </div>
+                <h4 class="text-slate-900 dark:text-white font-bold text-lg mb-2"><%= news[:title] %></h4>
+                <p class="text-slate-600 dark:text-slate-400 text-sm line-clamp-2"><%= news[:desc] %></p>
+              </div>
+            </a>
+          <% end %>
+        </div>
+      </section>
+    </div>
+
+    <%# Right Column %>
+    <aside class="w-full lg:w-[320px] space-y-6">
+      <%# Personal Watchlist %>
+      <div class="glass-card rounded-xl p-5 space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xl font-bold text-slate-900 dark:text-white">My Watchlist</h3>
+          <span class="material-symbols-outlined text-slate-500 cursor-pointer">more_horiz</span>
+        </div>
+        <div class="space-y-3">
+          <% [{s:'ETH', n:'Ethereum', p:'3,542.12', c:'+1.8%'},
+             {s:'SOL', n:'Solana', p:'145.89', c:'-0.4%', neg:true},
+             {s:'LINK', n:'Chainlink', p:'18.23', c:'+4.2%'}]
+          .each do |w| %>
+            <div class="flex items-center justify-between p-3 rounded bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 transition-all cursor-pointer group">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-[10px] font-bold text-white"><%= w[:s][0] %></div>
+                <div>
+                  <p class="text-slate-900 dark:text-white text-sm font-bold"><%= w[:n] %></p>
+                  <p class="text-slate-500 text-xs">$<%= w[:p] %></p>
+                </div>
+              </div>
+              <div class="text-right">
+                <p class="text-xs font-bold <%= w[:neg] ? 'text-rose-400' : 'text-emerald-400' %>"><%= w[:c] %></p>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <%# Community Feed %>
+      <div class="glass-card rounded-xl p-5 space-y-5">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xl font-bold text-slate-900 dark:text-white">Community</h3>
+          <span class="text-xs text-indigo-600 dark:text-indigo-400 font-bold uppercase tracking-widest">#<%= @coin_data[:symbol] || 'BTC' %></span>
+        </div>
+        <div class="space-y-4">
+          <div class="space-y-2">
+            <div class="flex items-center gap-2">
+              <div class="w-6 h-6 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500"></div>
+              <p class="text-slate-900 dark:text-white text-xs font-bold">WhaleTracker_Pro</p>
+              <span class="text-[10px] bg-indigo-100 dark:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 px-1 rounded">Pro</span>
+            </div>
+            <p class="text-slate-600 dark:text-slate-400 text-xs">Seeing massive BTC outflows from exchanges today. Cold storage supply shock imminent?</p>
+            <div class="flex items-center gap-4 text-[10px] text-slate-500 font-bold">
+              <span class="flex items-center gap-1 cursor-pointer hover:text-slate-900 dark:hover:text-white transition-colors">
+                <span class="material-symbols-outlined text-sm">thumb_up</span> 1.2k
+              </span>
+              <span class="flex items-center gap-1 cursor-pointer hover:text-slate-900 dark:hover:text-white transition-colors">
+                <span class="material-symbols-outlined text-sm">chat_bubble</span> 84
+              </span>
+            </div>
+          </div>
+          <div class="space-y-2 border-t border-slate-200 dark:border-white/5 pt-4">
+            <div class="flex items-center gap-2">
+              <div class="w-6 h-6 rounded-full bg-blue-500"></div>
+              <p class="text-white text-xs font-bold">Sarah_Trades</p>
+            </div>
+            <p class="text-slate-400 text-xs">The RSI on the daily is looking slightly overbought, might wait for a $64k retest before adding more to the stack.</p>
+            <div class="flex items-center gap-4 text-[10px] text-slate-500 font-bold">
+              <span class="flex items-center gap-1 cursor-pointer hover:text-white transition-colors">
+                <span class="material-symbols-outlined text-sm">thumb_up</span> 432
+              </span>
+              <span class="flex items-center gap-1 cursor-pointer hover:text-white transition-colors">
+                <span class="material-symbols-outlined text-sm">chat_bubble</span> 156
+              </span>
+            </div>
+          </div>
+        </div>
+        <button class="w-full py-3 rounded-lg bg-[#32343e] text-white font-bold text-xs hover:bg-[#373943] transition-colors uppercase tracking-widest">
+          Join Discussion
+        </button>
+      </div>
+
+      <%# Promo Card %>
+      <div class="rounded-xl overflow-hidden relative group cursor-pointer h-40">
+        <div class="absolute inset-0 bg-gradient-to-br from-indigo-600 to-purple-800"></div>
+        <div class="absolute inset-0 p-6 flex flex-col justify-end">
+          <p class="text-white font-bold text-xl">Earn 4.2% APY</p>
+          <p class="text-indigo-200 text-xs">Stake your <%= @coin_data[:symbol] || 'BTC' %> with institutional security.</p>
+        </div>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<style>
+.glass-card {
+  background: rgb(255 255 255);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgb(226, 232, 240);
+}
+.glass-card:hover {
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+}
+.dark .glass-card {
+  background: rgba(29, 31, 41, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+</style>

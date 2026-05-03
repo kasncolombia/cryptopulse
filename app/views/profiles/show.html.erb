@@ -1,0 +1,268 @@
+<%# Mi Perfil - CryptoSphere Hyper-Fintech Style %>
+<aside class="fixed left-0 top-0 h-full w-[260px] border-r border-white/10 bg-[#0c0e17] flex flex-col pt-6 z-50">
+  <div class="px-6 mb-10">
+    <a href="<%= root_path %>" class="block">
+      <h1 class="text-lg font-bold text-white uppercase tracking-widest">CryptoSphere</h1>
+      <p class="text-[10px] text-indigo-500 font-bold tracking-tighter">Pro Trader Terminal</p>
+    </a>
+  </div>
+  <nav class="flex-1 space-y-1">
+    <% [['dashboard', 'Dashboard', root_path], ['bar_chart', 'Mercado', '#'], ['star', 'Watchlist', '#'], ['school', 'Academia', '#'], ['forum', 'Comunidad', '#'], ['account_balance_wallet', 'Portafolio', profile_path]].each do |icon, label, url| %>
+      <%= link_to url, class: "flex items-center gap-4 #{controller_name == 'profiles' && label == 'Portafolio' ? 'bg-indigo-500/10 text-indigo-400 border-l-2 border-indigo-500' : 'text-slate-500 hover:text-slate-200 hover:bg-white/5'} px-6 py-3 w-full cursor-pointer transition-all duration-300 group" do %>
+        <span class="material-symbols-outlined"><%= icon %></span>
+        <span class="font-inter text-sm font-medium"><%= label %></span>
+      <% end %>
+    <% end %>
+  </nav>
+  <div class="mt-auto border-t border-white/10 pt-4 pb-8 space-y-1">
+    <%= link_to '#', class: "flex items-center gap-4 text-slate-500 hover:text-slate-200 px-6 py-3 w-full cursor-pointer hover:bg-white/5 transition-all" do %>
+      <span class="material-symbols-outlined">shield</span>
+      <span class="font-inter text-sm font-medium">Seguridad</span>
+    <% end %>
+    <%= link_to '#', class: "flex items-center gap-4 text-slate-500 hover:text-slate-200 px-6 py-3 w-full cursor-pointer hover:bg-white/5 transition-all" do %>
+      <span class="material-symbols-outlined">support_agent</span>
+      <span class="font-inter text-sm font-medium">Soporte</span>
+    <% end %>
+    <div class="px-6 mt-4">
+      <button class="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-bold text-xs uppercase tracking-wider active:scale-95 transition-transform">
+        Conectar Wallet
+      </button>
+    </div>
+  </div>
+</aside>
+
+<header class="fixed top-0 left-[260px] right-0 h-16 bg-[#0c0e17]/80 backdrop-blur-md border-b border-white/10 flex justify-between items-center px-8 z-40">
+  <div class="flex items-center bg-white/5 px-4 py-2 rounded-full border border-white/10 w-96">
+    <span class="material-symbols-outlined text-slate-400 text-lg mr-2">search</span>
+    <input class="bg-transparent border-none focus:ring-0 text-sm text-slate-200 w-full" placeholder="Search markets, assets, users..." type="text"/>
+  </div>
+  <div class="flex items-center gap-6">
+    <div class="flex items-center gap-4 text-slate-400">
+      <span class="material-symbols-outlined cursor-pointer hover:text-indigo-400 transition-colors">notifications</span>
+      <span class="material-symbols-outlined cursor-pointer hover:text-indigo-400 transition-colors">settings</span>
+      <span class="material-symbols-outlined cursor-pointer hover:text-indigo-400 transition-colors">help_outline</span>
+    </div>
+    <div class="h-8 w-8 rounded-full overflow-hidden border border-indigo-500/50">
+      <img alt="User" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCh_obgte__JyB4GX_iRX9WroSCYjs8r6xcepRLdaJHVZxFW6yzADoPzpWNnjnffA0CYHQeOh3sO19JCblI1LX2888P027oCcqM0eSEOTq9W8y8xf8Dnqvx6LRLnoUWHi0lOa5Nr_oa0oqOB_nvg2JLt4bxkI5UdakTGX_E3tldsZmW7bngCXFeuXDV8ODPZqpF_jRWsVEEbmVvQKBgip8oZZH0DVHpnfXBu289tRM0LLnHbcZ4U1edpUR9i-7c6ZSDYYX2s57jZO2q"/>
+    </div>
+  </div>
+</header>
+
+<main class="pl-[260px] pt-16 min-h-screen">
+  <div class="max-w-7xl mx-auto p-8 space-y-8">
+    <section class="flex flex-col md:flex-row gap-8 items-start md:items-end">
+      <div class="relative">
+        <div class="w-32 h-32 rounded-3xl overflow-hidden border-2 border-indigo-500 p-1 bg-[#0c0e17]">
+          <div class="w-full h-full rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-4xl font-extrabold text-white">AR</div>
+        </div>
+        <div class="absolute -bottom-2 -right-2 bg-indigo-500 text-white p-1.5 rounded-xl border-4 border-[#0c0e17]">
+          <span class="material-symbols-outlined text-lg block">verified</span>
+        </div>
+      </div>
+      <div class="flex-1 space-y-2">
+        <div class="flex items-center gap-3">
+          <h2 class="text-2xl font-bold text-white">Alex Rivera</h2>
+          <span class="px-3 py-1 rounded-full bg-gradient-to-r from-indigo-500/20 to-purple-500/20 border border-indigo-500/50 text-indigo-400 text-[10px] font-bold tracking-widest uppercase">PRO Member</span>
+        </div>
+        <p class="text-slate-400">Institutional Scalper & Blockchain Educator</p>
+        <div class="flex gap-4 pt-2">
+          <span class="flex items-center gap-1.5 text-slate-300 text-sm"><span class="material-symbols-outlined text-indigo-400 text-base">location_on</span> Zurich, CH</span>
+          <span class="flex items-center gap-1.5 text-slate-300 text-sm"><span class="material-symbols-outlined text-indigo-400 text-base">calendar_today</span> Joined March 2021</span>
+        </div>
+      </div>
+      <div class="flex gap-3">
+        <button class="px-6 py-2.5 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors font-bold text-sm">Edit Profile</button>
+        <button class="px-6 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-600 transition-colors text-white font-bold text-sm shadow-lg shadow-indigo-500/20">Share Profile</button>
+      </div>
+    </section>
+
+    <section class="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div class="glass-card p-6 rounded-2xl">
+        <p class="text-[11px] font-bold text-slate-500 uppercase mb-2">Total Trades</p>
+        <div class="flex items-end gap-2">
+          <span class="text-2xl font-bold text-white font-mono">1,284</span>
+          <span class="text-emerald-400 text-xs font-bold mb-1">+12%</span>
+        </div>
+      </div>
+      <div class="glass-card p-6 rounded-2xl">
+        <p class="text-[11px] font-bold text-slate-500 uppercase mb-2">Win Rate</p>
+        <div class="flex items-end gap-2">
+          <span class="text-2xl font-bold text-white font-mono">68.4%</span>
+          <div class="w-16 h-1 bg-white/10 rounded-full mb-2.5 overflow-hidden">
+            <div class="bg-indigo-500 h-full" style="width: 68%;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="glass-card p-6 rounded-2xl">
+        <p class="text-[11px] font-bold text-slate-500 uppercase mb-2">Lessons Completed</p>
+        <div class="flex items-end gap-2">
+          <span class="text-2xl font-bold text-white font-mono">42 / 50</span>
+          <span class="material-symbols-outlined text-emerald-400 text-xl mb-0.5">school</span>
+        </div>
+      </div>
+      <div class="glass-card p-6 rounded-2xl">
+        <p class="text-[11px] font-bold text-slate-500 uppercase mb-2">Followers</p>
+        <div class="flex items-end gap-2">
+          <span class="text-2xl font-bold text-white font-mono">8.5k</span>
+          <span class="text-indigo-400 text-xs font-bold mb-1">Top 1%</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div class="lg:col-span-2 space-y-8">
+        <div class="glass-card rounded-2xl overflow-hidden">
+          <div class="p-6 border-b border-white/5 flex justify-between items-center">
+            <h3 class="text-xl font-bold text-white">Recent Transactions</h3>
+            <button class="text-indigo-400 text-xs font-bold hover:underline">Download CSV</button>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left">
+              <thead class="bg-white/5">
+                <tr>
+                  <th class="px-6 py-4 text-[11px] font-bold text-slate-400 uppercase">Asset</th>
+                  <th class="px-6 py-4 text-[11px] font-bold text-slate-400 uppercase">Type</th>
+                  <th class="px-6 py-4 text-[11px] font-bold text-slate-400 uppercase">Amount</th>
+                  <th class="px-6 py-4 text-[11px] font-bold text-slate-400 uppercase">Status</th>
+                  <th class="px-6 py-4 text-[11px] font-bold text-slate-400 uppercase">Date</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-white/5">
+                <% [{t:'BTC', n:'Bitcoin', c:'orange-500', type:'Buy', amt:'0.42 BTC', status:'COMPLETED', date:'2h ago'},
+                   {t:'ETH', n:'Ethereum', c:'blue-500', type:'Sell', amt:'12.5 ETH', status:'COMPLETED', date:'Yesterday'},
+                   {t:'SOL', n:'Solana', c:'purple-500', type:'Swap', amt:'240 SOL', status:'PENDING', date:'2 days ago'}].each do |txn| %>
+                  <tr class="hover:bg-white/5 transition-colors">
+                    <td class="px-6 py-4 flex items-center gap-3">
+                      <div class="w-8 h-8 rounded-full bg-<%= txn[:c] %>/20 flex items-center justify-center text-<%= txn[:c] %> font-bold text-xs"><%= txn[:t] %></div>
+                      <span class="font-bold text-slate-200"><%= txn[:n] %></span>
+                    </td>
+                    <td class="px-6 py-4 <%= txn[:type] == 'Sell' ? 'text-rose-400' : 'text-emerald-400' %> text-sm font-medium"><%= txn[:type] %></td>
+                    <td class="px-6 py-4 font-mono text-slate-200 text-sm"><%= txn[:amt] %></td>
+                    <td class="px-6 py-4">
+                      <span class="px-2 py-1 rounded-md bg-<%= txn[:status] == 'COMPLETED' ? 'emerald-500/10' : 'slate-500/10' %> text-<%= txn[:status] == 'COMPLETED' ? 'emerald-400' : 'slate-400' %> text-[10px] font-bold"><%= txn[:status] %></span>
+                    </td>
+                    <td class="px-6 py-4 text-slate-500 text-xs"><%= txn[:date] %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="glass-card rounded-2xl p-6">
+          <h3 class="text-xl font-bold text-white mb-6">Account Settings</h3>
+          <div class="space-y-4">
+            <div class="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/5">
+              <div class="flex items-center gap-4">
+                <span class="material-symbols-outlined text-slate-400">mail</span>
+                <div>
+                  <p class="text-sm font-bold text-slate-200">Email Notifications</p>
+                  <p class="text-xs text-slate-500">Receive trade alerts and market reports</p>
+                </div>
+              </div>
+              <div class="w-10 h-5 bg-indigo-500 rounded-full relative cursor-pointer">
+                <div class="absolute right-1 top-1 w-3 h-3 bg-white rounded-full"></div>
+              </div>
+            </div>
+            <div class="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/5">
+              <div class="flex items-center gap-4">
+                <span class="material-symbols-outlined text-slate-400">authenticator</span>
+                <div>
+                  <p class="text-sm font-bold text-slate-200">2FA Security</p>
+                  <p class="text-xs text-slate-500">Keep your account secure with Authenticator</p>
+                </div>
+              </div>
+              <div class="w-10 h-5 bg-white/10 rounded-full relative cursor-pointer">
+                <div class="absolute left-1 top-1 w-3 h-3 bg-slate-400 rounded-full"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-8">
+        <div class="p-8 rounded-2xl bg-gradient-to-br from-indigo-600 to-purple-800 relative overflow-hidden group">
+          <div class="absolute top-0 right-0 p-4 opacity-20 transform translate-x-4 -translate-y-4">
+            <span class="material-symbols-outlined text-9xl">workspace_premium</span>
+          </div>
+          <div class="relative z-10">
+            <p class="text-[11px] font-bold text-indigo-200 uppercase mb-1">Current Plan</p>
+            <h3 class="text-2xl font-black text-white mb-4">Ultimate Pro</h3>
+            <p class="text-indigo-100 text-sm mb-6 leading-relaxed">Unlock real-time institutional order flow, advanced API access, and private discord signals.</p>
+            <div class="space-y-3 mb-8">
+              <div class="flex items-center gap-2 text-xs font-medium text-white/90">
+                <span class="material-symbols-outlined text-emerald-400 text-base" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                Unlimited API keys
+              </div>
+              <div class="flex items-center gap-2 text-xs font-medium text-white/90">
+                <span class="material-symbols-outlined text-emerald-400 text-base" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                0% Trading Fees
+              </div>
+              <div class="flex items-center gap-2 text-xs font-medium text-white/90">
+                <span class="material-symbols-outlined text-emerald-400 text-base" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                24/7 Priority Support
+              </div>
+            </div>
+            <button class="w-full py-3 rounded-xl bg-white text-indigo-600 font-bold text-sm hover:bg-indigo-50 transition-colors">Manage Subscription</button>
+          </div>
+        </div>
+
+        <div class="glass-card rounded-2xl p-6">
+          <h3 class="text-xl font-bold text-white mb-6">Linked Wallets</h3>
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-lg bg-orange-500/10 flex items-center justify-center">
+                  <span class="text-orange-500 font-bold">₿</span>
+                </div>
+                <div>
+                  <p class="text-sm font-bold text-slate-200">MetaMask</p>
+                  <p class="text-xs font-mono text-slate-500">0x71...3A92</p>
+                </div>
+              </div>
+              <span class="material-symbols-outlined text-slate-500 cursor-pointer hover:text-white transition-colors">more_vert</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center">
+                  <span class="text-blue-500 font-bold">Ξ</span>
+                </div>
+                <div>
+                  <p class="text-sm font-bold text-slate-200">Coinbase</p>
+                  <p class="text-xs font-mono text-slate-500">alex@rivera.pro</p>
+                </div>
+              </div>
+              <span class="material-symbols-outlined text-slate-500 cursor-pointer hover:text-white transition-colors">more_vert</span>
+            </div>
+            <button class="w-full py-3 mt-2 rounded-xl border border-dashed border-white/20 text-slate-400 hover:text-white hover:border-white/40 transition-all text-xs font-bold flex items-center justify-center gap-2">
+              <span class="material-symbols-outlined text-base">add</span>
+              Add New Wallet
+            </button>
+          </div>
+        </div>
+
+        <div class="glass-card rounded-2xl p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-bold text-white">Security Level</h3>
+            <span class="text-emerald-400 text-xs font-bold uppercase tracking-widest">High</span>
+          </div>
+          <div class="flex gap-1 mb-4">
+            <div class="h-1.5 flex-1 bg-emerald-500 rounded-full"></div>
+            <div class="h-1.5 flex-1 bg-emerald-500 rounded-full"></div>
+            <div class="h-1.5 flex-1 bg-emerald-500 rounded-full"></div>
+            <div class="h-1.5 flex-1 bg-white/10 rounded-full"></div>
+          </div>
+          <p class="text-xs text-slate-500 mb-0 leading-relaxed">Your account is well protected. Add a hardware key to reach Maximum Security.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<style>
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+</style>

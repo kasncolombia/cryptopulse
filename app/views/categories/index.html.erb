@@ -1,0 +1,51 @@
+<%# Directorio de Categorías y Subcategorías %>
+<div class="p-6 sm:p-8 bg-slate-50 dark:bg-[#0D0E1A] min-h-full">
+
+  <div class="mb-8">
+    <div class="flex items-center gap-2 text-[13px] text-slate-500 dark:text-[#5A5F7A] mb-3">
+      <a href="<%= root_path %>" class="hover:text-[#4F46E5] transition-colors">Inicio</a>
+      <span>›</span>
+      <span class="text-slate-900 dark:text-white font-medium">Academia</span>
+    </div>
+    <h1 class="text-[30px] font-extrabold text-slate-900 dark:text-white tracking-tight">Directorio Completo</h1>
+    <p class="text-[15px] text-slate-500 dark:text-[#8B8FA8] mt-1.5">
+      <strong class="text-slate-800 dark:text-white"><%= @categories.count %> categorías</strong> · Miles de recursos crypto
+    </p>
+  </div>
+
+  <div class="relative mb-8 max-w-md">
+    <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+    <input type="text" placeholder="Buscar categoría..." class="w-full h-11 pl-12 pr-4 bg-white dark:bg-[#13152B] border border-slate-200 dark:border-[#2A2D4A] rounded-xl text-[14px] text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-[#4F46E5] transition-colors shadow-sm">
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+    <% emoji_map = {'Trading'=>'📈','DeFi'=>'🦄','NFTs'=>'🎨','Blockchain'=>'⛓️','Análisis'=>'📊','Guías'=>'📚','Seguridad'=>'🔐','Mining'=>'⛏️','Regulación'=>'⚖️','Altcoins'=>'🪙','Layer 2'=>'🔗','Web3'=>'🌐'} %>
+    <% colors = ['#4F46E5','#10B981','#EC4899','#6366F1','#F59E0B','#A855F7','#EF4444','#F97316','#06B6D4','#8B5CF6','#22C55E','#3B82F6'] %>
+    <% @categories.each_with_index do |category, idx| %>
+      <% color = colors[idx % colors.length] %>
+      <div class="bg-white dark:bg-[#13152B] rounded-2xl border border-slate-200 dark:border-[#2A2D4A] hover:border-[#4F46E5]/40 hover:shadow-lg transition-all overflow-hidden">
+        <div class="flex items-center gap-4 p-5 border-b border-slate-100 dark:border-[#1E2140]">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl shrink-0" style="background-color:<%= color %>20">
+            <%= emoji_map[category.name] || '📁' %>
+          </div>
+          <div class="flex-1 min-w-0">
+            <h2 class="text-[16px] font-extrabold text-slate-900 dark:text-white truncate"><%= category.name %></h2>
+            <p class="text-[12px] text-slate-500 dark:text-[#8B8FA8]"><%= category.subcategories.count %> subcategorías</p>
+          </div>
+        </div>
+        <div class="p-4 space-y-1">
+          <% category.subcategories.first(5).each do |sub| %>
+            <div class="flex items-center gap-2 py-1 cursor-pointer group">
+              <div class="w-1.5 h-1.5 rounded-full shrink-0" style="background-color:<%= color %>"></div>
+              <span class="text-[13px] text-slate-600 dark:text-[#8B8FA8] group-hover:text-[#4F46E5] transition-colors truncate"><%= sub.name %></span>
+            </div>
+          <% end %>
+          <% remaining = category.subcategories.count - 5 %>
+          <% if remaining > 0 %>
+            <p class="text-[12px] font-bold pt-1" style="color:<%= color %>">+ <%= remaining %> más subcategorías</p>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

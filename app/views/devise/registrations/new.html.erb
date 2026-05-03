@@ -1,0 +1,118 @@
+<%# Registro - CryptoSphere Hyper-Fintech Style %>
+<div class="min-h-screen bg-[#11131c] flex items-center justify-center p-6 relative overflow-hidden">
+  <div class="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-500/10 blur-[120px] rounded-full pointer-events-none"></div>
+  <div class="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-500/10 blur-[120px] rounded-full pointer-events-none"></div>
+
+  <div class="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
+
+    <%# Left: Branding (solo desktop) %>
+    <div class="hidden lg:flex flex-col gap-8 pr-8">
+      <a href="<%= root_path %>" class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center font-bold text-white text-lg shadow-lg shadow-indigo-500/30">CS</div>
+        <span class="text-[28px] font-extrabold bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">CryptoSphere</span>
+      </a>
+      <div>
+        <h2 class="text-[32px] font-bold text-white leading-tight mb-4">Acceso institucional para el trader moderno.</h2>
+        <p class="text-[16px] text-slate-400 max-w-md leading-relaxed">Únete a la plataforma líder en análisis de activos digitales. Seguridad de grado bancario y herramientas de trading de alta precisión.</p>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <% [['🔒', 'Seguridad Total', 'Encriptación AES-256 en cada transacción.'],
+            ['⚡', 'Baja Latencia',  'Ejecución instantánea en mercados globales.'],
+            ['📊', 'Datos en Vivo',  'Precios y on-chain data en tiempo real.'],
+            ['🎓', 'Academia',       'Cursos y guías desde nivel básico a experto.']].each do |icon, title, desc| %>
+          <div class="bg-white/5 backdrop-blur border border-white/10 p-4 rounded-xl">
+            <div class="text-2xl mb-2"><%= icon %></div>
+            <h4 class="text-[14px] font-bold text-white mb-1"><%= title %></h4>
+            <p class="text-[12px] text-slate-500 leading-tight"><%= desc %></p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <%# Right: Form %>
+    <div class="flex justify-center lg:justify-start">
+      <div class="w-full max-w-md bg-[#1d1f29]/70 backdrop-blur-xl border border-white/10 rounded-3xl p-8 md:p-10 shadow-2xl">
+        <div class="text-center lg:text-left mb-7">
+          <h1 class="text-[26px] font-bold text-white mb-1">Crear cuenta</h1>
+          <p class="text-[14px] text-slate-400">Empieza a operar en minutos.</p>
+        </div>
+
+        <% if resource.errors.any? %>
+          <div class="mb-5 p-4 bg-rose-500/10 border border-rose-500/30 rounded-xl">
+            <p class="text-[13px] font-bold text-rose-400 mb-1"><%= pluralize(resource.errors.count, "error") %> al crear la cuenta:</p>
+            <ul class="text-[12px] text-rose-400 space-y-1 list-disc list-inside">
+              <% resource.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+          <div class="space-y-4">
+            <div>
+              <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Nombre completo</label>
+              <div class="relative">
+                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-xl">person</span>
+                <input type="text" name="name" placeholder="Ej. Juan Pérez" class="w-full bg-[#0c0e17] border border-[#464554] focus:border-[#c0c1ff] rounded-xl py-3 pl-11 pr-4 text-white placeholder:text-slate-600 text-[14px] outline-none transition-all">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Email</label>
+              <div class="relative">
+                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-xl">mail</span>
+                <%= f.email_field :email, autofocus: true, autocomplete: "email",
+                      class: "w-full bg-[#0c0e17] border border-[#464554] focus:border-[#c0c1ff] rounded-xl py-3 pl-11 pr-4 text-white placeholder:text-slate-600 text-[14px] outline-none transition-all",
+                      placeholder: "usuario@dominio.com" %>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Contraseña</label>
+              <div class="relative">
+                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-xl">lock</span>
+                <%= f.password_field :password, autocomplete: "new-password",
+                      class: "w-full bg-[#0c0e17] border border-[#464554] focus:border-[#c0c1ff] rounded-xl py-3 pl-11 pr-4 text-white placeholder:text-slate-600 text-[14px] outline-none transition-all",
+                      placeholder: "Mínimo 8 caracteres" %>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Confirmar contraseña</label>
+              <div class="relative">
+                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-xl">verified_user</span>
+                <%= f.password_field :password_confirmation, autocomplete: "new-password",
+                      class: "w-full bg-[#0c0e17] border border-[#464554] focus:border-[#c0c1ff] rounded-xl py-3 pl-11 pr-4 text-white placeholder:text-slate-600 text-[14px] outline-none transition-all",
+                      placeholder: "••••••••" %>
+              </div>
+            </div>
+
+            <label class="flex items-start gap-3 cursor-pointer pt-1">
+              <input type="checkbox" class="mt-0.5 w-4 h-4 rounded border-[#464554] bg-[#0c0e17] text-indigo-500">
+              <span class="text-[12px] text-slate-400 leading-tight">
+                Acepto los <a href="#" class="text-indigo-400 hover:underline">Términos de Servicio</a> y la <a href="#" class="text-indigo-400 hover:underline">Política de Privacidad</a> de CryptoSphere.
+              </span>
+            </label>
+
+            <%= f.submit "Unirse a CryptoSphere", class: "w-full py-4 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-400 hover:to-purple-500 text-white font-bold text-[15px] rounded-xl shadow-lg shadow-indigo-500/25 transition-all active:scale-[0.98] cursor-pointer mt-2" %>
+          </div>
+        <% end %>
+
+        <div class="flex justify-center gap-8 mt-6 pt-6 border-t border-white/10">
+          <% [['🔒', 'AES-256'], ['☁️', '99.9% Uptime'], ['🛡️', 'GDPR OK']].each do |icon, label| %>
+            <div class="text-center opacity-50 hover:opacity-100 transition-opacity">
+              <div class="text-lg"><%= icon %></div>
+              <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mt-1"><%= label %></p>
+            </div>
+          <% end %>
+        </div>
+
+        <p class="text-center text-[14px] text-slate-500 mt-5">
+          ¿Ya tienes una cuenta?
+          <%= link_to "Iniciar sesión", new_session_path(resource_name), class: "text-indigo-400 font-bold hover:text-indigo-300 ml-1 transition-colors" %>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

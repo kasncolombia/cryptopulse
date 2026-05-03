@@ -1,0 +1,98 @@
+<%# Noticias / Blog %>
+<div class="p-6 sm:p-8 bg-slate-50 dark:bg-[#0D0E1A] min-h-full">
+
+  <%# Header + Filtros %>
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+    <div>
+      <h1 class="text-[28px] font-extrabold text-slate-900 dark:text-white tracking-tight">Noticias & Blog</h1>
+      <p class="text-[14px] text-slate-500 dark:text-[#8B8FA8] mt-1">Las últimas novedades del ecosistema crypto</p>
+    </div>
+    <div class="flex flex-wrap gap-2">
+      <% [['Todas','#4F46E5',true],['Bitcoin','#F59E0B',false],['Ethereum','#60A5FA',false],['DeFi','#34D399',false],['Regulación','#A855F7',false]].each do |label, color, active| %>
+        <button class="px-4 py-1.5 rounded-full text-[13px] font-bold transition-all <%= active ? 'text-white shadow-md' : 'bg-white dark:bg-[#1A1D35] text-slate-600 dark:text-[#8B8FA8] border border-slate-200 dark:border-[#2A2D4A] hover:border-[#4F46E5]' %>"
+                style="<%= active ? "background-color:#{color};" : '' %>">
+          <%= label %>
+        </button>
+      <% end %>
+    </div>
+  </div>
+
+  <%# Artículo Destacado (Hero) %>
+  <a href="<%= news_path('bitcoin-rompe-resistencia-65000-maximos-historicos') %>" class="block mb-8 rounded-2xl overflow-hidden bg-white dark:bg-[#13152B] border border-slate-200 dark:border-[#2A2D4A] shadow-sm hover:shadow-xl transition-all group">
+    <div class="flex flex-col md:flex-row">
+      <div class="md:w-[45%] h-52 md:h-auto bg-gradient-to-br from-indigo-600 to-purple-700 relative overflow-hidden shrink-0">
+        <img src="https://images.unsplash.com/photo-1518546305927-5a555bb7020d?w=800&h=400&fit=crop&auto=format" class="w-full h-full object-cover opacity-60 mix-blend-overlay group-hover:scale-105 transition-transform duration-500">
+        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <span class="text-[80px] select-none">₿</span>
+        </div>
+        <span class="absolute top-4 left-4 bg-[#F59E0B] text-white text-[11px] font-extrabold uppercase tracking-wider px-3 py-1 rounded-full">Destacado</span>
+      </div>
+      <div class="flex-1 p-7 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-[12px] font-extrabold uppercase tracking-wider text-[#F59E0B]">Bitcoin</span>
+            <span class="text-slate-300 dark:text-[#5A5F7A]">•</span>
+            <span class="text-[12px] text-slate-500 dark:text-[#5A5F7A]">Hace 1 hora</span>
+            <span class="ml-auto text-[12px] text-slate-400 dark:text-[#5A5F7A]">⏱ 6 min</span>
+          </div>
+          <h2 class="text-[22px] sm:text-[26px] font-extrabold text-slate-900 dark:text-white leading-tight mb-4 group-hover:text-[#4F46E5] transition-colors">
+            Bitcoin rompe resistencia clave de $65,000 — Analistas apuntan a nuevos máximos históricos
+          </h2>
+          <p class="text-[14px] text-slate-600 dark:text-[#8B8FA8] leading-relaxed line-clamp-3">
+            El precio del Bitcoin ha superado el nivel de resistencia de $65,000 por primera vez en semanas. Los analistas técnicos señalan que este movimiento podría ser el precursor de un rally que llevaría al activo hacia sus máximos históricos...
+          </p>
+        </div>
+        <div class="flex items-center justify-between mt-6 pt-5 border-t border-slate-100 dark:border-[#2A2D4A]">
+          <div class="flex items-center gap-2">
+            <div class="w-7 h-7 rounded-full bg-gradient-to-tr from-[#4F46E5] to-[#A855F7] flex items-center justify-center text-[10px] font-bold text-white">AN</div>
+            <span class="text-[13px] font-semibold text-slate-700 dark:text-[#8B8FA8]">Analista Cripto</span>
+          </div>
+          <span class="text-[13px] font-bold text-[#4F46E5] group-hover:underline flex items-center gap-1">
+            Leer artículo
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </span>
+        </div>
+      </div>
+    </div>
+  </a>
+
+  <%# Grid de Artículos %>
+  <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+    <% [
+        {cat:'Ethereum',   color:'#60A5FA', title:'Vitalik propone nuevos cambios para reducir el gas en L2',                     time:'Hace 2h',  img:'https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=400&h=220&fit=crop&auto=format', read:'3 min'},
+        {cat:'Regulación', color:'#F59E0B', title:'La SEC aplaza la decisión sobre los ETFs de Solana hasta septiembre',          time:'Hace 4h',  img:'https://images.unsplash.com/photo-1622630998477-20b41cd0e0d2?w=400&h=220&fit=crop&auto=format', read:'5 min'},
+        {cat:'Análisis',   color:'#A855F7', title:'El ratio MVRV indica acumulación masiva de ballenas en niveles actuales',      time:'Hace 5h',  img:'https://images.unsplash.com/photo-1639762681485-074b7f4ec651?w=400&h=220&fit=crop&auto=format', read:'7 min'},
+        {cat:'DeFi',       color:'#34D399', title:'El TVL de restaking supera los $10 Billones por primera vez en la historia',  time:'Hace 8h',  img:'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=400&h=220&fit=crop&auto=format', read:'4 min'},
+        {cat:'NFTs',       color:'#EC4899', title:'Blur v2 lanza su protocolo de préstamos con cero liquidaciones instantáneas', time:'Hace 12h', img:'https://images.unsplash.com/photo-1620321023374-d1a68fbc720d?w=400&h=220&fit=crop&auto=format', read:'6 min'},
+        {cat:'Bitcoin',    color:'#F59E0B', title:'El hashrate de Bitcoin alcanza un nuevo ATH superando los 600 EH/s',          time:'Hace 1d',  img:'https://images.unsplash.com/photo-1518546305927-5a555bb7020d?w=400&h=220&fit=crop&auto=format', read:'4 min'}
+       ].each do |article| %>
+      <a href="<%= news_path('bitcoin-rompe-resistencia-65000-maximos-historicos') %>" class="bg-white dark:bg-[#13152B] rounded-2xl border border-slate-200 dark:border-[#2A2D4A] overflow-hidden hover:shadow-lg hover:border-[#4F46E5]/40 hover:-translate-y-0.5 transition-all group block">
+        <div class="h-44 overflow-hidden">
+          <img src="<%= article[:img] %>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+        </div>
+        <div class="p-5">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-[11px] font-extrabold uppercase tracking-wider" style="color:<%= article[:color] %>"><%= article[:cat] %></span>
+            <span class="text-[11px] text-slate-400 dark:text-[#5A5F7A]">• <%= article[:time] %></span>
+            <span class="ml-auto text-[11px] font-medium text-slate-400 dark:text-[#5A5F7A]">⏱ <%= article[:read] %></span>
+          </div>
+          <h3 class="text-[15px] font-bold text-slate-900 dark:text-white leading-snug line-clamp-2 group-hover:text-[#4F46E5] transition-colors"><%= article[:title] %></h3>
+          <div class="mt-4 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <div class="w-6 h-6 rounded-full bg-gradient-to-tr from-[#4F46E5] to-[#A855F7] flex items-center justify-center text-[9px] font-bold text-white">CP</div>
+              <span class="text-[12px] font-medium text-slate-500 dark:text-[#8B8FA8]">CryptoPulse</span>
+            </div>
+            <span class="text-[12px] font-bold text-[#4F46E5] opacity-0 group-hover:opacity-100 transition-opacity">Leer →</span>
+          </div>
+        </div>
+      </a>
+    <% end %>
+  </div>
+
+  <%# Cargar más %>
+  <div class="flex justify-center mt-10">
+    <button class="px-8 py-3 bg-white dark:bg-[#13152B] border border-slate-200 dark:border-[#2A2D4A] hover:border-[#4F46E5] text-slate-700 dark:text-white text-[14px] font-bold rounded-xl transition-all hover:shadow-md">
+      Cargar más noticias
+    </button>
+  </div>
+</div>
